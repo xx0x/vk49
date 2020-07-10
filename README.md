@@ -1,2 +1,2 @@
 # vk49
-talking watch project
+work in progress
