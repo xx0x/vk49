@@ -206,14 +206,13 @@ void alarmLoop()
 {
     if (alarmTriggered)
     {
-        bool c = true;
         DateTime now = rtc.getAlarmDateTime(1);
         int hh = now.hour();
         int mm = now.minute();
         for (byte i = 0; i < ALARM_MAX_LOOPS; i++)
         {
-            c = saySample(SAMPLE_ALARM_BASE + currentAlarm, hh, mm);
-            if (!c)
+            saySample(SAMPLE_ALARM_BASE + currentAlarm, hh, mm);
+            if (stopPlaying)
             {
                 break;
             }
