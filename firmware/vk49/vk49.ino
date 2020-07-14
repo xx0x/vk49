@@ -86,7 +86,6 @@ byte currentAlarm = 0;
 byte alarmsCount = 0;
 byte alarmTriggered = false;
 
-
 #include "./samples.h"
 #include "./clock.h"
 #include "./display.h"
@@ -94,7 +93,6 @@ byte alarmTriggered = false;
 #include "./say.h"
 #include "./sleep.h"
 #include "./digits.h"
-
 
 void setup()
 {
@@ -206,16 +204,16 @@ void alarmLoop()
 {
     if (alarmTriggered)
     {
-        DateTime now = rtc.getAlarmDateTime(1);
-        int hh = now.hour();
-        int mm = now.minute();
+        DateTime alarm = rtc.getAlarmDateTime(1);
         for (byte i = 0; i < ALARM_MAX_LOOPS; i++)
         {
-            saySample(SAMPLE_ALARM_BASE + currentAlarm, hh, mm);
+            displayTime(alarm.hour(), alarm.minute(), 00);
+            saySample(SAMPLE_ALARM_BASE + currentAlarm);
             if (stopPlaying)
             {
                 break;
             }
+            displayClear();
             delay(500);
         }
         alarmTriggered = false;
@@ -314,7 +312,7 @@ void menuLoop()
                 currentAlarm = 0;
             }
             displayMenuItem(currentMenuItem, (byte)(currentAlarm + 1));
-            saySample(currentAlarm + SAMPLE_ALARM_BASE, -1, currentAlarm);
+            saySample(currentAlarm + SAMPLE_ALARM_BASE);
         }
         displayMenuItem(currentMenuItem, (byte)(currentAlarm + 1));
         break;
@@ -435,7 +433,6 @@ void serialLoop()
     }
     serialMode = SERIAL_MODE_NONE;
 }
-
 
 byte readBattery()
 {

@@ -9,41 +9,21 @@ void saySetup()
     i2s.enableTx();
 }
 
-#define SHOULD_BLINK (blinkH > -1 && blinkM > -1)
-
 uint32_t toRead = BUFFER_SIZE;
-bool blink = false;
-int blinkH = -1;
-int blinkM = -1;
 byte rec = 0;
 int16_t sample = 0;
-uint32_t totalRecieved = 0;
 uint32_t volume = 0;
 
 bool processSample(byte part)
 {
     sample = (part << (8 * rec)) | sample;
     rec++;
-    totalRecieved++;
     if (rec == 2)
     {
         int32_t sampleX = sample * volume;
         i2s.write(sampleX, sampleX);
         rec = 0;
         sample = 0;
-
-        if (blink && totalRecieved % 16000 == 0)
-        {
-            if (totalRecieved % 32000 == 0)
-            {
-                displayTime(blinkH, blinkM, 00);
-            }
-            else
-            {
-                displayClear();
-            }
-        }
-
         if (stopPlaying)
         {
             return false;
@@ -52,7 +32,7 @@ bool processSample(byte part)
     return true;
 }
 
-bool saySample(byte sample, int blinkHh, int blinkMm)
+bool saySample(byte sample)
 {
     uint32_t offset = samplesOffsets[sample];
     uint32_t length = samplesLenghts[sample];
@@ -63,26 +43,14 @@ bool saySample(byte sample, int blinkHh, int blinkMm)
     }
 
     volume = volumes[currentVolume];
-    blinkH = blinkHh;
-    blinkM = blinkMm;
-    blink = SHOULD_BLINK;
     isPlaying = true;
     stopPlaying = false;
-    totalRecieved = 0;
 
     flash.readCustom(offset, length, processSample);
 
     isPlaying = false;
-    if (blink)
-    {
-        displayClear();
-    }
+   
     return !stopPlaying;
-}
-
-bool saySample(byte sample)
-{
-    return saySample(sample, -1, -1);
 }
 
 bool sayNumber(byte num)
