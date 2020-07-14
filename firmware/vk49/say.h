@@ -77,7 +77,7 @@ bool saySample(byte sample, int blinkHh, int blinkMm)
     {
         displayClear();
     }
-    return true;
+    return !stopPlaying;
 }
 
 bool saySample(byte sample)
