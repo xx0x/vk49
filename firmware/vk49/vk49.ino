@@ -160,10 +160,10 @@ void alarmCallback()
 void turnOff()
 {
     displayOff();
+    flash.powerDown();
     delay(10);
     digitalWrite(PIN_ENABLE, LOW);
     sleepStart();
-    flash.powerDown();
 }
 
 void turnOn()
@@ -244,6 +244,7 @@ void menuLoop()
         menuButtonPressed = false;
         if (!DIGITS_ACTIVE)
         {
+            menuFrame = 0;
             currentMenuItem++;
         }
         else
@@ -348,7 +349,36 @@ void menuLoop()
         }
         else
         {
-            if (currentDigit >= 0 && currentDigit <= 3)
+            if (currentDigit == -1)
+            {
+                DateTime time;
+                if (currentMenuItem == MENU_ALARMSET)
+                {
+                    time = rtc.getAlarmDateTime(1);
+                }
+                else
+                {
+                    time = rtc.now();
+                }
+                if (menuFrame == 1)
+                {
+                    displayMenuItem(currentMenuItem, time.hour());
+                }
+                else if (menuFrame == 2)
+                {
+                    displayMenuItem(currentMenuItem, time.minute());
+                }
+                else
+                {
+                    displayClear();
+                    displayMenuItem(currentMenuItem);
+                }
+                delay(500);
+                displayClear();
+                displayMenuItem(currentMenuItem);
+                delay(10);
+            }
+            else if (currentDigit >= 0 && currentDigit <= 3)
             {
                 if (buttonPressed)
                 {
