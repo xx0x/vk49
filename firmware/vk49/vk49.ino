@@ -163,6 +163,7 @@ void turnOff()
     delay(10);
     digitalWrite(PIN_ENABLE, LOW);
     sleepStart();
+    flash.powerDown();
 }
 
 void turnOn()
@@ -170,6 +171,7 @@ void turnOn()
     digitalWrite(PIN_ENABLE, HIGH);
     delay(10);
     displayOn();
+    flash.powerUp();
 }
 
 void loop()
