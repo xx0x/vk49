@@ -246,6 +246,7 @@ void menuLoop()
 {
     if (menuButtonPressed)
     {
+        delay(50);
         menuButtonPressed = false;
         if (!DIGITS_ACTIVE)
         {
@@ -378,7 +379,12 @@ void menuLoop()
                     displayClear();
                     displayMenuItem(currentMenuItem);
                 }
-                delay(500);
+                for(byte j = 0; j < 50; j++){
+                    delay(10);
+                    if(buttonPressed || menuButtonPressed){
+                        break;
+                    }
+                }
                 displayClear();
                 displayMenuItem(currentMenuItem);
                 delay(10);
