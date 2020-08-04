@@ -20,13 +20,14 @@ void displayOff()
 void displaySetup()
 {
     displayOn();
+    delay(100);
     lc.setDigit(0, 0, 4, false);
     lc.setDigit(0, 3, 9, false);
-    delay(300);
+    delay(500);
     displayClear();
     lc.setDigit(0, 1, 4, false);
     lc.setDigit(0, 2, 9, false);
-    delay(300);
+    delay(500);
     displayClear();
 }
 
@@ -51,12 +52,20 @@ void displayTime(int hh, int mm, int ss)
     lc.setDigit(0, 2, (mm / 10) % 10, false);
     lc.setDigit(0, 3, mm % 10, false);
 #endif
-#if LED_PANEL == SR440281N
+#if LED_PANEL == ARKLED_SR420281N
     lc.setDigit(0, 0, (hh / 10) % 10, false);
-    lc.setDigit(0, 1, hh % 10, false);
+    lc.setDigit(0, 1, hh % 10, true);
     lc.setDigit(0, 2, (mm / 10) % 10, false);
     lc.setDigit(0, 3, mm % 10, false);
 #endif
+}
+
+void displayEmpty()
+{
+    lc.setChar(0, 0, 'E', false);
+    lc.setChar(0, 1, 'E', false);
+    lc.setChar(0, 2, 'E', false);
+    lc.setChar(0, 3, 'E', false);
 }
 
 void displayFlash()

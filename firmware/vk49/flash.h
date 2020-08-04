@@ -10,12 +10,7 @@ uint32_t flashReadInt(uint32_t address)
     return buff[0] << 24 | buff[1] << 16 | buff[2] << 8 | buff[3];
 }
 
-bool flashIsEmpty()
-{
-    return false;
-    // return (flash.readByte(0) == 0);
-}
-void flashSetup(bool startup)
+bool flashSetup()
 {
 
     Serial.print("VK49 | Flash manufacturer: ");
@@ -26,18 +21,16 @@ void flashSetup(bool startup)
     Serial.println(flash.getCapacity());
     Serial.println("");
 
-    bool empty = flashIsEmpty();
+    uint32_t flashHeaderLength = flashReadInt(0);
+    Serial.print("VK49 | Data header length: ");
+    Serial.println(flashHeaderLength);
 
-    Serial.print("VK49 | Flash empty: ");
-    Serial.println(empty);
-    Serial.println("");
-
-    if (empty)
+    if (flashHeaderLength > MAX_HEADER_SIZE)
     {
-        return;
+        Serial.println("VK49 | Header too long, ignoring...");
+        return false;
     }
 
-    uint32_t flashHeaderLength = flashReadInt(0);
     uint32_t prevAddress = flashHeaderLength;
 
     // clear old stuff
@@ -54,6 +47,10 @@ void flashSetup(bool startup)
     for (byte i = 4; i < flashHeaderLength; i += 5)
     {
         byte num = flash.readByte(i);
+        if (num >= MAX_SAMPLES)
+        {
+            break;
+        }
         samplesOffsets[num] = prevAddress;
         samplesLenghts[num] = flashReadInt(i + 1);
         prevAddress += samplesLenghts[num];
@@ -88,6 +85,8 @@ void flashSetup(bool startup)
     }
     Serial.print("VK49 | Found alarms: ");
     Serial.println(alarmsCount);
+
+    return true;
 }
 
 void flashProcessByte(byte data)
@@ -101,7 +100,7 @@ void flashProcessByte(byte data)
         flashDisplayActive = !flashDisplayActive;
         if (flashDisplayActive)
         {
-            displayFlash((uint16_t) (flashAddress / 10486));
+            displayFlash((uint16_t)(flashAddress / 10486));
         }
         else
         {
@@ -136,6 +135,6 @@ void flashEnd()
         Serial.print(flashAddress);
         Serial.println(" bytes written.");
         displayClear();
-        flashSetup(false);
+        flashSetup();
     }
 }

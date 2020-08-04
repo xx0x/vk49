@@ -28,9 +28,9 @@
 #define BAT_DELAY 100
 
 // LED panel types (because of decimal point)
-#define ARKLED_SR440281N 1
+#define ARKLED_SR420281N 1
 #define UNKNOWN_2481AS 2
-#define LED_PANEL SR440281N
+#define LED_PANEL ARKLED_SR420281N
 
 // Create audio, RTC, display and flash objects
 LedControlSAMD21 lc = LedControlSAMD21(PIN_LED_DATA, PIN_LED_CLOCK, PIN_LED_LATCH, 1);
@@ -44,6 +44,7 @@ byte buffer[BUFFER_SIZE];
 #define SERIAL_MODE_NONE 0
 #define SERIAL_MODE_FLASH '@'
 byte serialMode = SERIAL_MODE_NONE;
+#define MAX_HEADER_SIZE 1279 // 4 + 255*5
 
 // Samples
 uint32_t samplesLenghts[MAX_SAMPLES];
@@ -103,24 +104,29 @@ void setup()
     pinMode(PIN_MENU_BUTTON, INPUT_PULLUP);
     pinMode(PIN_BATSENSE, INPUT);
     delay(1000);
+    displaySetup();
 
     Serial.begin(115200);
     Serial.println("VK49 startup\n");
 
-    displaySetup();
-    clockSetup();
+       flash.begin();
 
+    while(!flashSetup()){
+        displayEmpty();
+        delay(1000);
+        displayClear();
+        serialLoop();
+        delay(1000);
+    }
+
+    clockSetup();
     showTime(false);
-    delay(300);
+    delay(500);
     displayClear();
 
-    flash.begin();
-    flashSetup(true);
     saySetup();
-
-    Serial.println("VK49 ready\n");
-
     sleepPrepare(buttonPressedCallback, menuButtonPressedCallback, alarmCallback);
+    Serial.println("VK49 ready\n");
 }
 
 void buttonPressedCallback()
@@ -176,7 +182,6 @@ void turnOn()
 
 void loop()
 {
-
     serialLoop();
     alarmLoop();
     if (!alarmTriggered)
