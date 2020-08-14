@@ -58,10 +58,15 @@ byte digits[4] = {0, 0, 0, 0};
 // Flow
 bool goToSleep = true;
 bool menuActive = false;
-bool buttonPressed = false;
-bool menuButtonPressed = false;
 bool stopPlaying = false;
 bool isPlaying = false;
+
+// Buttons and timings
+#define DEBOUNCE_TIME 50
+bool buttonPressed = false;
+bool menuButtonPressed = false;
+unsigned long lastTimeButton = 0;
+unsigned long lastTimeMenuButton = 0;
 
 // Menu
 int8_t currentMenuItem = -1;
@@ -109,9 +114,10 @@ void setup()
     Serial.begin(115200);
     Serial.println("VK49 startup\n");
 
-       flash.begin();
+    flash.begin();
 
-    while(!flashSetup()){
+    while (!flashSetup())
+    {
         displayEmpty();
         delay(1000);
         displayClear();
@@ -131,6 +137,11 @@ void setup()
 
 void buttonPressedCallback()
 {
+    if (millis() - lastTimeButton < DEBOUNCE_TIME)
+    {
+        return;
+    }
+    lastTimeButton = millis();
     buttonPressed = true;
     if (isPlaying && IS_MENU_ACTIVE)
     {
@@ -145,6 +156,11 @@ void buttonPressedCallback()
 
 void menuButtonPressedCallback()
 {
+    if (millis() - lastTimeMenuButton < DEBOUNCE_TIME)
+    {
+        return;
+    }
+    lastTimeMenuButton = millis();
     menuButtonPressed = true;
     if (isPlaying)
     {
@@ -161,6 +177,18 @@ void alarmCallback()
 {
     alarmTriggered = true;
     rtc.clearAlarm(1);
+}
+
+void smartDelay(unsigned int d)
+{
+    for (unsigned int j = 0; j < d / 10; j++)
+    {
+        delay(10);
+        if (buttonPressed || menuButtonPressed)
+        {
+            break;
+        }
+    }
 }
 
 void turnOff()
@@ -246,7 +274,6 @@ void menuLoop()
 {
     if (menuButtonPressed)
     {
-        delay(50);
         menuButtonPressed = false;
         if (!DIGITS_ACTIVE)
         {
@@ -341,7 +368,6 @@ void menuLoop()
             }
         }
         displayMenuItem(currentMenuItem, alarmEnabled);
-        delay(50);
         break;
 
     case MENU_ALARMSET: // D
@@ -379,15 +405,9 @@ void menuLoop()
                     displayClear();
                     displayMenuItem(currentMenuItem);
                 }
-                for(byte j = 0; j < 50; j++){
-                    delay(10);
-                    if(buttonPressed || menuButtonPressed){
-                        break;
-                    }
-                }
+                smartDelay(500);
                 displayClear();
                 displayMenuItem(currentMenuItem);
-                delay(10);
             }
             else if (currentDigit >= 0 && currentDigit <= 3)
             {
@@ -420,7 +440,7 @@ void menuLoop()
     {
         menuFrame = 0;
     }
-    delay(100);
+    smartDelay(100);
 }
 
 void showTime(bool say)
