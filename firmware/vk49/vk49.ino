@@ -67,6 +67,7 @@ bool buttonPressed = false;
 bool menuButtonPressed = false;
 unsigned long lastTimeButton = 0;
 unsigned long lastTimeMenuButton = 0;
+#define MENU_TIMEOUT 30000
 
 // Menu
 int8_t currentMenuItem = -1;
@@ -264,6 +265,7 @@ byte menuFrame = 0;
 void menuExit()
 {
     buttonPressed = false;
+    menuButtonPressed = false;
     goToSleep = true;
     alarmHasPlayed = false;
     currentMenuItem = -1;
@@ -272,6 +274,16 @@ void menuExit()
 
 void menuLoop()
 {
+    if (millis() - lastTimeButton > MENU_TIMEOUT && millis() - lastTimeMenuButton > MENU_TIMEOUT)
+    {
+        displayClear();
+        delay(50);
+        displayShowOff();
+        delay(500);
+        displayClear();
+        menuExit();
+        return;
+    }
     if (menuButtonPressed)
     {
         menuButtonPressed = false;
@@ -282,7 +294,7 @@ void menuLoop()
         }
         else
         {
-            currentDigit++;
+            digitsNext();
             if (currentDigit >= 4)
             {
                 if (currentMenuItem == MENU_ALARMSET)

@@ -27,6 +27,13 @@ void digitsSaveAsAlarm()
     clockAlarmSet(digits[0] * 10 + digits[1], digits[2] * 10 + digits[3]);
 }
 
+void digitsNext(){
+    currentDigit++;
+    if(digits[0] > 1 && digits[1] > 3){
+        digits[1] = 0;
+    }
+}
+
 void digitsIncrease()
 {
     digits[currentDigit]++;

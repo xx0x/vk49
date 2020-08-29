@@ -68,6 +68,13 @@ void displayEmpty()
     lc.setChar(0, 3, 'E', false);
 }
 
+void displayShowOff()
+{
+    lc.setChar(0, 1, 'o', false);
+    lc.setChar(0, 2, 'f', false);
+    lc.setChar(0, 3, 'f', false);
+}
+
 void displayFlash()
 {
     lc.setChar(0, 0, 'F', false);
