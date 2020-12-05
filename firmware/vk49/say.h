@@ -49,7 +49,7 @@ bool saySample(byte sample)
     flash.readCustom(offset, length, processSample);
 
     isPlaying = false;
-   
+
     return !stopPlaying;
 }
 
@@ -67,10 +67,14 @@ bool sayNumber(byte num)
     return cont;
 }
 
-void sayTime(int hh, int mm, int ss)
+
+void sayTime(int hh, int mm, int ss, bool intro, bool outro)
 {
     bool cont = true;
-    cont = saySample(SAMPLE_INTRO);
+    if (intro)
+    {
+        cont = saySample(SAMPLE_INTRO);
+    }
     if (!cont)
         return;
     cont = sayNumber(hh);
@@ -107,7 +111,16 @@ void sayTime(int hh, int mm, int ss)
     }
     if (!cont)
         return;
-    saySample(SAMPLE_OUTRO);
+
+    if (outro)
+    {
+        saySample(SAMPLE_OUTRO);
+    }
+}
+
+void sayTime(int hh, int mm, int ss)
+{
+    sayTime(hh, mm, ss, true, true);
 }
 
 void sayTestAllSamples()

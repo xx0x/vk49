@@ -44,9 +44,11 @@ bool flashSetup()
     alarmsCount = 0;
 
     // read new data
-    for (byte i = 4; i < flashHeaderLength; i += 5)
+    for (uint16_t i = 4; i < flashHeaderLength; i += 5)
     {
         byte num = flash.readByte(i);
+        Serial.print("Reading sample ");
+        Serial.println(num);
         if (num >= MAX_SAMPLES)
         {
             break;
@@ -118,6 +120,13 @@ void flashStart()
 {
     flashAddress = 0;
     currentFlashCount = 0;
+    Serial.print("VK49 | Flash manufacturer: ");
+    Serial.println(flash.getManID());
+    Serial.print("VK49 | Flash JEDEC ID: ");
+    Serial.println(flash.getJEDECID());
+    Serial.print("VK49 | Flash capacity: ");
+    Serial.println(flash.getCapacity());
+    Serial.println("");
     Serial.println("VK49 | Erasing chip.");
     flash.eraseChip();
     Serial.println("VK49 | Chip erased.");

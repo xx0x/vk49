@@ -19,7 +19,7 @@
 // Settings
 #define DISPLAY_INTENSITY 15 // 0-15
 #define SAMPLERATE_HZ 22050
-#define MAX_SAMPLES 128
+#define MAX_SAMPLES 160
 
 // Battery measure
 #define BAT_TOPLIMIT 1678
@@ -302,12 +302,22 @@ void menuLoop()
                     digitsSaveAsAlarm();
                     DateTime alarm = rtc.getAlarmDateTime(1);
                     displayTime(alarm.hour(), alarm.minute(), 00);
-                    saySample(SAMPLE_ALARM_BASE);
+                    saySample(SAMPLE_INTRO);
+                    saySample(SAMPLE_ALARM_SET);
+                    delay(300);
+                    saySample(SAMPLE_ALARM_CURRENT);
+                    sayTime(alarm.hour(), alarm.minute(), 00, false, true);
                 }
                 else if (currentMenuItem == MENU_TIMESET)
                 {
                     digitsSaveAsClock();
-                    showTime(true);
+                    DateTime now = rtc.now();
+                    displayTime(now.hour(), now.minute(), now.second());
+                    saySample(SAMPLE_INTRO);
+                    saySample(SAMPLE_TIME_SET);
+                    delay(300);
+                    saySample(SAMPLE_TIME_CURRENT);
+                    sayTime(now.hour(), now.minute(), now.second(), false, true);
                 }
                 displayClear();
                 menuExit();
