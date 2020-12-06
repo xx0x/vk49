@@ -62,7 +62,7 @@ bool stopPlaying = false;
 bool isPlaying = false;
 
 // Buttons and timings
-#define DEBOUNCE_TIME 50
+#define DEBOUNCE_TIME 250
 bool buttonPressed = false;
 bool menuButtonPressed = false;
 unsigned long lastTimeButton = 0;
