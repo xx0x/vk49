@@ -198,6 +198,8 @@ void turnOff()
     flash.powerDown();
     delay(10);
     digitalWrite(PIN_ENABLE, LOW);
+    lastTimeButton = 0;
+    lastTimeMenuButton = 0;
     sleepStart();
 }
 
