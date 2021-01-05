@@ -4,12 +4,12 @@
 // author: Vaclav Mach (vaclavmach@hotmail.cz, info@xx0x.cz)
 // project homepage: www.xx0x.cz
 
-#include "LedControlSAMD21.h"
 #include "RTClib.h" // modified
 #include <Wire.h>
 #include <TimeLib.h>
 #include "Adafruit_ZeroI2S.h"
 #include <SPIMemory.h> // modified
+#include <AS1115.h>
 
 #include "./pins.h"
 
@@ -27,16 +27,12 @@
 #define BAT_MEASURES 10
 #define BAT_DELAY 100
 
-// LED panel types (because of decimal point)
-#define ARKLED_SR420281N 1
-#define UNKNOWN_2481AS 2
-#define LED_PANEL ARKLED_SR420281N
-
 // Create audio, RTC, display and flash objects
-LedControlSAMD21 lc = LedControlSAMD21(PIN_LED_DATA, PIN_LED_CLOCK, PIN_LED_LATCH, 1);
+// LedControlSAMD21 lc = LedControlSAMD21(PIN_LED_DATA, PIN_LED_CLOCK, PIN_LED_LATCH, 1);
 RTC_DS3231 rtc;
 Adafruit_ZeroI2S i2s(PIN_I2S_FS, PIN_I2S_SCK, PIN_I2S_TX, PIN_I2S_RX);
 SPIFlash flash(PIN_FLASH_CS);
+AS1115 as = AS1115(0x00);
 
 // Flashing stuff
 #define BUFFER_SIZE 8600
@@ -103,6 +99,7 @@ byte alarmTriggered = false;
 
 void setup()
 {
+    Wire.begin();
     analogReadResolution(12);
     pinMode(PIN_ENABLE, OUTPUT);
     digitalWrite(PIN_ENABLE, HIGH);
@@ -340,7 +337,7 @@ void menuLoop()
 
     if (!DIGITS_ACTIVE)
     {
-        displayMenuItem(currentMenuItem);
+        // displayMenuItem(currentMenuItem);
     }
     bool alarmEnabled;
 
