@@ -38,7 +38,7 @@ void displayDigits(byte h1, byte h2, byte m1, byte m2)
 
 void displayDigit(byte digit, byte value)
 {
-    as.displayNumber(digit, value);
+    as.displayNumber(digit + 1, value); // library uses 1 indexing
 }
 
 void displayTime(int hh, int mm, int ss)
