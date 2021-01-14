@@ -108,20 +108,23 @@ char displayGetChar(byte val)
 
 void displayMenuItem(byte item)
 {
+    delay(20);
     char txt[4];
-    sprintf(txt, "%c", displayGetChar(item));
+    sprintf(txt, "%c   ", displayGetChar(item));
     as.display(txt);
 }
 
-void displayMenuItem(byte item, byte val)
+void displayMenuItemNumber(byte item, byte val)
 {
+    delay(20);
     char txt[4];
     sprintf(txt, "%c %d%d", displayGetChar(item), (val / 10) % 10, val % 10);
     as.display(txt);
 }
 
-void displayMenuItem(byte item, bool val)
+void displayMenuItemBoolean(byte item, bool val)
 {
+    delay(20);
     char txt[4];
     if (val)
     {

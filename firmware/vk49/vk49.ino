@@ -179,6 +179,7 @@ void alarmCallback()
 
 void smartDelay(unsigned int d)
 {
+    delay(10);
     for (unsigned int j = 0; j < d / 10; j++)
     {
         delay(10);
@@ -242,6 +243,7 @@ void alarmLoop()
         DateTime alarm = rtc.getAlarmDateTime(1);
         for (byte i = 0; i < ALARM_MAX_LOOPS; i++)
         {
+            delay(20);
             displayTime(alarm.hour(), alarm.minute(), 00);
             saySample(SAMPLE_ALARM_BASE + currentAlarm);
             if (stopPlaying)
@@ -256,6 +258,7 @@ void alarmLoop()
         buttonPressed = false;
         goToSleep = true;
         menuExit(); //  if alarm triggered in menu, close it
+        delay(1000);
     }
 }
 
@@ -270,6 +273,8 @@ void menuExit()
     currentMenuItem = -1;
     currentDigit = -1;
 }
+
+byte previousBatteryState = 0;
 
 void menuLoop()
 {
@@ -335,10 +340,6 @@ void menuLoop()
         return;
     }
 
-    if (!DIGITS_ACTIVE)
-    {
-        // displayMenuItem(currentMenuItem);
-    }
     bool alarmEnabled;
 
     switch (currentMenuItem)
@@ -353,7 +354,7 @@ void menuLoop()
                 currentVolume = 0;
             }
         }
-        displayMenuItem(currentMenuItem, currentVolume);
+        displayMenuItemNumber(currentMenuItem, currentVolume);
         break;
     case MENU_SOUND: // B
         if (buttonPressed)
@@ -368,10 +369,15 @@ void menuLoop()
             {
                 currentAlarm = 0;
             }
-            displayMenuItem(currentMenuItem, (byte)(currentAlarm + 1));
+            delay(30);
+            displayMenuItemNumber(currentMenuItem, currentAlarm + 1);
+            delay(30);
             saySample(currentAlarm + SAMPLE_ALARM_BASE);
         }
-        displayMenuItem(currentMenuItem, (byte)(currentAlarm + 1));
+        else
+        {
+            displayMenuItemNumber(currentMenuItem, currentAlarm + 1);
+        }
         break;
     case MENU_ALARM: // C
         alarmEnabled = clockIsAlarmEnabled();
@@ -388,7 +394,7 @@ void menuLoop()
                 clockDisableAlarm();
             }
         }
-        displayMenuItem(currentMenuItem, alarmEnabled);
+        displayMenuItemBoolean(currentMenuItem, alarmEnabled);
         break;
 
     case MENU_ALARMSET: // D
@@ -415,20 +421,17 @@ void menuLoop()
                 }
                 if (menuFrame == 1)
                 {
-                    displayMenuItem(currentMenuItem, time.hour());
+                    displayMenuItemNumber(currentMenuItem, time.hour());
                 }
                 else if (menuFrame == 2)
                 {
-                    displayMenuItem(currentMenuItem, time.minute());
+                    displayMenuItemNumber(currentMenuItem, time.minute());
                 }
                 else
                 {
-                    displayClear();
                     displayMenuItem(currentMenuItem);
                 }
                 smartDelay(500);
-                displayClear();
-                displayMenuItem(currentMenuItem);
             }
             else if (currentDigit >= 0 && currentDigit <= 3)
             {
@@ -450,8 +453,18 @@ void menuLoop()
 
         break;
     case MENU_BATTERY: // F
-        displayMenuItem(currentMenuItem, readBattery());
-
+        delay(50);
+        if (previousBatteryState > 0)
+        {
+            displayMenuItemNumber(currentMenuItem, previousBatteryState);
+        }
+        else
+        {
+            displayMenuItem(currentMenuItem);
+        }
+        delay(50);
+        previousBatteryState = readBattery();
+        smartDelay(200);
         break;
     default:
         break;
