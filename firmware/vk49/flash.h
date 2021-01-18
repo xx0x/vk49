@@ -1,3 +1,4 @@
+#define DISPLAY_SHOW_FLASHING false
 
 uint32_t currentFlashCount = 0;
 uint32_t flashAddress = 0;
@@ -99,6 +100,7 @@ void flashProcessByte(byte data)
         flash.writeByteArray(flashAddress - currentFlashCount, buffer, currentFlashCount);
         Serial.print(".");
         currentFlashCount = 0;
+#if DISPLAY_SHOW_FLASHING
         flashDisplayActive = !flashDisplayActive;
         if (flashDisplayActive)
         {
@@ -108,6 +110,7 @@ void flashProcessByte(byte data)
         {
             displayClear();
         }
+#endif
     }
     else
     {
@@ -118,6 +121,9 @@ void flashProcessByte(byte data)
 
 void flashStart()
 {
+    delay(20);
+    displayFlash();
+    delay(20);
     flashAddress = 0;
     currentFlashCount = 0;
     Serial.print("VK49 | Flash manufacturer: ");
