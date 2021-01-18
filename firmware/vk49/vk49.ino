@@ -306,22 +306,34 @@ void menuLoop()
                     digitsSaveAsAlarm();
                     DateTime alarm = rtc.getAlarmDateTime(1);
                     displayTime(alarm.hour(), alarm.minute(), 00);
-                    saySample(SAMPLE_INTRO);
-                    saySample(SAMPLE_ALARM_SET);
-                    delay(300);
-                    saySample(SAMPLE_ALARM_CURRENT);
-                    sayTime(alarm.hour(), alarm.minute(), 00, false, true);
+                    if (saySample(SAMPLE_INTRO))
+                    {
+                        if (saySample(SAMPLE_ALARM_SET))
+                        {
+                            delay(300);
+                            if (saySample(SAMPLE_ALARM_CURRENT))
+                            {
+                                sayTime(alarm.hour(), alarm.minute(), 00, false, true);
+                            }
+                        }
+                    }
                 }
                 else if (currentMenuItem == MENU_TIMESET)
                 {
                     digitsSaveAsClock();
                     DateTime now = rtc.now();
                     displayTime(now.hour(), now.minute(), now.second());
-                    saySample(SAMPLE_INTRO);
-                    saySample(SAMPLE_TIME_SET);
-                    delay(300);
-                    saySample(SAMPLE_TIME_CURRENT);
-                    sayTime(now.hour(), now.minute(), now.second(), false, true);
+                    if (saySample(SAMPLE_INTRO))
+                    {
+                        if (saySample(SAMPLE_TIME_SET))
+                        {
+                            delay(300);
+                            if (saySample(SAMPLE_TIME_CURRENT))
+                            {
+                                sayTime(now.hour(), now.minute(), now.second(), false, true);
+                            }
+                        }
+                    }
                 }
                 displayClear();
                 menuExit();
