@@ -80,11 +80,11 @@ void sayTime(int hh, int mm, int ss, bool intro, bool outro)
     cont = sayNumber(hh);
     if (!cont)
         return;
-    if (hh % 10 == 1 && hh != 11)
+    if (hh == 1)
     {
         cont = saySample(SAMPLE_HOURS1);
     }
-    else if ((hh % 10 == 2 && hh != 12) || (hh % 10 == 3 && hh != 13) || (hh % 10 == 4 && hh != 14))
+    else if (hh > 1 && hh < 5)
     {
         cont = saySample(SAMPLE_HOURS2_4);
     }
@@ -97,11 +97,11 @@ void sayTime(int hh, int mm, int ss, bool intro, bool outro)
     cont = sayNumber(mm);
     if (!cont)
         return;
-    if (mm % 10 == 1 && mm != 11)
+    if (mm == 1)
     {
         cont = saySample(SAMPLE_MINUTES1);
     }
-    else if ((mm % 10 == 2 && mm != 12) || (mm % 10 == 3 && mm != 13) || (mm % 10 == 4 && mm != 14))
+    else if (mm > 1 && mm < 5)
     {
         cont = saySample(SAMPLE_MINUTES2_4);
     }
