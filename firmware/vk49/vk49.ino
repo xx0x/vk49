@@ -35,11 +35,14 @@ SPIFlash flash(PIN_FLASH_CS);
 AS1115 as = AS1115(0x00);
 
 // Flashing stuff
+unsigned long lastTimeSerialRecieved = 0;
 #define BUFFER_SIZE 8600
 byte buffer[BUFFER_SIZE];
 #define SERIAL_MODE_NONE 0
 #define SERIAL_MODE_FLASH '@'
-byte serialMode = SERIAL_MODE_NONE;
+#define SERIAL_MODE_DEVICE '?'
+#define SERIAL_MODE_SET_TIME '%'
+#define SERIAL_TIMEOUT_MODE 1000
 #define MAX_HEADER_SIZE 1279 // 4 + 255*5
 
 // Samples
@@ -278,7 +281,7 @@ byte previousBatteryState = 0;
 
 void menuLoop()
 {
-    if (millis() - lastTimeButton > MENU_TIMEOUT && millis() - lastTimeMenuButton > MENU_TIMEOUT)
+    if (millis() - lastTimeButton > MENU_TIMEOUT && millis() - lastTimeMenuButton > MENU_TIMEOUT && millis() - lastTimeSerialRecieved > MENU_TIMEOUT)
     {
         displayClear();
         delay(50);
@@ -520,27 +523,68 @@ void showTime(bool say)
 /* FLASH STUFF */
 void serialLoop()
 {
-    while (Serial.available() > 0)
+    byte serialMode = SERIAL_MODE_NONE;
+    byte serialBuffer[64];
+    byte serialBufferPos = 0;
+
+    do
     {
-        byte inByte = Serial.read();
-        switch (serialMode)
+        while (Serial.available() > 0)
         {
-        case SERIAL_MODE_FLASH:
-            flashProcessByte(inByte);
-            break;
-        default:
-            serialMode = inByte;
-            if (serialMode == SERIAL_MODE_FLASH)
+            lastTimeSerialRecieved = millis();
+            byte inByte = Serial.read();
+            switch (serialMode)
             {
-                flashStart();
+            case SERIAL_MODE_FLASH:
+                flashProcessByte(inByte);
+                break;
+            case SERIAL_MODE_SET_TIME:
+                serialBuffer[serialBufferPos] = inByte;
+                serialBufferPos++;
+                break;
+            default:
+                serialMode = inByte;
+                if (serialMode == SERIAL_MODE_FLASH)
+                {
+                    flashStart();
+                }
+                if (serialMode == SERIAL_MODE_DEVICE)
+                {
+                    Serial.println("Device: VK49");
+                    Serial.print("Capacity: ");
+                    Serial.println(flash.getCapacity());
+                }
+                if (serialMode == SERIAL_MODE_SET_TIME)
+                {
+                    serialBufferPos = 0;
+                }
             }
         }
-    }
-    if (serialMode == SERIAL_MODE_FLASH)
+    } while (millis() - lastTimeSerialRecieved <= SERIAL_TIMEOUT_MODE);
+
+    DateTime now;
+    switch (serialMode)
     {
+    case SERIAL_MODE_FLASH:
         flashEnd();
+        break;
+    case SERIAL_MODE_SET_TIME:
+        clockSet(serialBuffer[0] * 10 + serialBuffer[1], serialBuffer[2] * 10 + serialBuffer[3], serialBuffer[4] * 10 + serialBuffer[5]);
+        now = rtc.now();
+        displayTime(now.hour(), now.minute(), now.second());
+        if (saySample(SAMPLE_INTRO))
+        {
+            if (saySample(SAMPLE_TIME_SET))
+            {
+                delay(300);
+                if (saySample(SAMPLE_TIME_CURRENT))
+                {
+                    sayTime(now.hour(), now.minute(), now.second(), false, true);
+                }
+            }
+        }
+        break;
     }
-    serialMode = SERIAL_MODE_NONE;
 }
 
 byte readBattery()

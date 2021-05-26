@@ -2,7 +2,7 @@ void saySetup()
 {
     if (!i2s.begin(I2S_32_BIT, SAMPLERATE_HZ))
     {
-        Serial.println("VK49 | Failed to initialize I2S.");
+        Serial.println("Failed to initialize I2S.");
         while (1)
             ;
     }

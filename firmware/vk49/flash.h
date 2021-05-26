@@ -14,21 +14,20 @@ uint32_t flashReadInt(uint32_t address)
 bool flashSetup()
 {
 
-    Serial.print("VK49 | Flash manufacturer: ");
+    Serial.print("Flash manufacturer: ");
     Serial.println(flash.getManID());
-    Serial.print("VK49 | Flash JEDEC ID: ");
+    Serial.print("Flash JEDEC ID: ");
     Serial.println(flash.getJEDECID());
-    Serial.print("VK49 | Flash capacity: ");
+    Serial.print("Flash capacity: ");
     Serial.println(flash.getCapacity());
-    Serial.println("");
 
     uint32_t flashHeaderLength = flashReadInt(0);
-    Serial.print("VK49 | Data header length: ");
+    Serial.print("Data header length: ");
     Serial.println(flashHeaderLength);
 
     if (flashHeaderLength > MAX_HEADER_SIZE)
     {
-        Serial.println("VK49 | Header too long, ignoring...");
+        Serial.println("Header too long, ignoring...");
         return false;
     }
 
@@ -48,8 +47,6 @@ bool flashSetup()
     for (uint16_t i = 4; i < flashHeaderLength; i += 5)
     {
         byte num = flash.readByte(i);
-        Serial.print("Reading sample ");
-        Serial.println(num);
         if (num >= MAX_SAMPLES)
         {
             break;
@@ -74,7 +71,7 @@ bool flashSetup()
     {
         if (samplesLenghts[i] != 0)
         {
-            Serial.print("VK49 | Sample ");
+            Serial.print("Sample ");
             if (i < 10)
             {
                 Serial.print(" ");
@@ -86,7 +83,7 @@ bool flashSetup()
             Serial.println(samplesLenghts[i]);
         }
     }
-    Serial.print("VK49 | Found alarms: ");
+    Serial.print("Found alarms: ");
     Serial.println(alarmsCount);
 
     return true;
@@ -98,7 +95,8 @@ void flashProcessByte(byte data)
     if (currentFlashCount >= BUFFER_SIZE)
     {
         flash.writeByteArray(flashAddress - currentFlashCount, buffer, currentFlashCount);
-        Serial.print(".");
+        Serial.print("Bytes written: ");
+        Serial.println(flashAddress);
         currentFlashCount = 0;
 #if DISPLAY_SHOW_FLASHING
         flashDisplayActive = !flashDisplayActive;
@@ -126,29 +124,26 @@ void flashStart()
     delay(20);
     flashAddress = 0;
     currentFlashCount = 0;
-    Serial.print("VK49 | Flash manufacturer: ");
+    Serial.print("Flash manufacturer: ");
     Serial.println(flash.getManID());
-    Serial.print("VK49 | Flash JEDEC ID: ");
+    Serial.print("Flash JEDEC ID: ");
     Serial.println(flash.getJEDECID());
-    Serial.print("VK49 | Flash capacity: ");
+    Serial.print("Flash capacity: ");
     Serial.println(flash.getCapacity());
-    Serial.println("");
-    Serial.println("VK49 | Erasing chip.");
+    Serial.println("Erasing chip");
     flash.eraseChip();
-    Serial.println("VK49 | Chip erased.");
-    Serial.println("VK49 | Starting flashing.");
+    Serial.println("Chip erased");
+    Serial.println("Starting flashing");
 }
 
 void flashEnd()
 {
-    Serial.println("");
-    Serial.println("VK49 | Flashing ended.");
+    Serial.println("Flashing ended");
     if (flashAddress > 0)
     {
         flash.writeByteArray(flashAddress - currentFlashCount, buffer, currentFlashCount); // write remainings
-        Serial.print("VK49 | ");
-        Serial.print(flashAddress);
-        Serial.println(" bytes written.");
+        Serial.print("Total bytes: ");
+        Serial.println(flashAddress);
         displayClear();
         flashSetup();
     }
