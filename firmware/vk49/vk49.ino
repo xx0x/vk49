@@ -138,7 +138,7 @@ void setup()
 
 void buttonPressedCallback()
 {
-    if (millis() - lastTimeButton < DEBOUNCE_TIME)
+    if (millis() - lastTimeButton < DEBOUNCE_TIME && millis() > lastTimeButton)
     {
         return;
     }
@@ -157,7 +157,7 @@ void buttonPressedCallback()
 
 void menuButtonPressedCallback()
 {
-    if (millis() - lastTimeMenuButton < DEBOUNCE_TIME)
+    if (millis() - lastTimeMenuButton < DEBOUNCE_TIME && millis() > lastTimeMenuButton)
     {
         return;
     }
