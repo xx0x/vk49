@@ -1423,11 +1423,32 @@ SST26VF064BT-104I/SM&lt;br /&gt;
 <text x="0" y="0.762" size="0.8128" layer="25" ratio="15" align="center">&gt;NAME</text>
 <text x="0" y="-0.762" size="0.8128" layer="25" ratio="15" align="center">&gt;VALUE</text>
 </package>
+<package name="SEG_SR420281N_NO-SILK" urn="urn:adsk.eagle:footprint:40222505/1" library_version="44">
+<pad name="4" x="1.27" y="-3.81" drill="0.5"/>
+<pad name="3" x="-1.27" y="-3.81" drill="0.5"/>
+<pad name="2" x="-3.81" y="-3.81" drill="0.5"/>
+<pad name="1" x="-6.35" y="-3.81" drill="0.5"/>
+<pad name="5" x="3.81" y="-3.81" drill="0.5"/>
+<pad name="6" x="6.35" y="-3.81" drill="0.5"/>
+<pad name="12" x="-6.35" y="3.81" drill="0.5"/>
+<pad name="11" x="-3.81" y="3.81" drill="0.5"/>
+<pad name="10" x="-1.27" y="3.81" drill="0.5"/>
+<pad name="9" x="1.27" y="3.81" drill="0.5"/>
+<pad name="8" x="3.81" y="3.81" drill="0.5"/>
+<pad name="7" x="6.35" y="3.81" drill="0.5"/>
+<text x="0" y="0.762" size="0.8128" layer="25" ratio="15" align="center">&gt;NAME</text>
+<text x="0" y="-0.762" size="0.8128" layer="25" ratio="15" align="center">&gt;VALUE</text>
+</package>
 </packages>
 <packages3d>
 <package3d name="SEG_SR420281N" urn="urn:adsk.eagle:package:40210566/1" type="box" library_version="43">
 <packageinstances>
 <packageinstance name="SEG_SR420281N"/>
+</packageinstances>
+</package3d>
+<package3d name="SEG_SR420281N_NO-SILK" urn="urn:adsk.eagle:package:40222506/1" type="box" library_version="44">
+<packageinstances>
+<packageinstance name="SEG_SR420281N_NO-SILK"/>
 </packageinstances>
 </package3d>
 </packages3d>
@@ -1454,7 +1475,7 @@ SST26VF064BT-104I/SM&lt;br /&gt;
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="SEG_SR420281N" urn="urn:adsk.eagle:component:40211997/1" prefix="DISPLAY" library_version="43">
+<deviceset name="SEG_SR420281N" urn="urn:adsk.eagle:component:40211997/2" prefix="DISPLAY" library_version="44">
 <gates>
 <gate name="G$1" symbol="SEG_SR420281N" x="0" y="0"/>
 </gates>
@@ -1476,6 +1497,28 @@ SST26VF064BT-104I/SM&lt;br /&gt;
 </connects>
 <package3dinstances>
 <package3dinstance package3d_urn="urn:adsk.eagle:package:40210566/1"/>
+</package3dinstances>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+<device name="_NOSILK" package="SEG_SR420281N_NO-SILK">
+<connects>
+<connect gate="G$1" pin="DIG_0" pad="12"/>
+<connect gate="G$1" pin="DIG_1" pad="9"/>
+<connect gate="G$1" pin="DIG_2" pad="8"/>
+<connect gate="G$1" pin="DIG_3" pad="6"/>
+<connect gate="G$1" pin="SEG_A" pad="11"/>
+<connect gate="G$1" pin="SEG_B" pad="7"/>
+<connect gate="G$1" pin="SEG_C" pad="4"/>
+<connect gate="G$1" pin="SEG_D" pad="2"/>
+<connect gate="G$1" pin="SEG_DP" pad="3"/>
+<connect gate="G$1" pin="SEG_E" pad="1"/>
+<connect gate="G$1" pin="SEG_F" pad="10"/>
+<connect gate="G$1" pin="SEG_G" pad="5"/>
+</connects>
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:40222506/1"/>
 </package3dinstances>
 <technologies>
 <technology name=""/>
@@ -2871,12 +2914,12 @@ Source: http://www.murata.com/ Ferrite Bead BLM15H.pdf</description>
 <part name="IC5" library="BASTL_ICS" library_urn="urn:adsk.eagle:library:32977748" deviceset="DS3231MZ+" device="" package3d_urn="urn:adsk.eagle:package:32977849/5"/>
 <part name="IC6" library="BASTL_ICS" library_urn="urn:adsk.eagle:library:32977748" deviceset="STM6519" device="" package3d_urn="urn:adsk.eagle:package:40210576/1"/>
 <part name="VR1" library="BASTL_VOLTAGE REGULATORS" library_urn="urn:adsk.eagle:library:32975822" deviceset="MCP1700T-3302E/TT" device="" package3d_urn="urn:adsk.eagle:package:36093105/1"/>
-<part name="DISPLAY1" library="BASTL_LEDS" library_urn="urn:adsk.eagle:library:32977677" deviceset="SEG_SR420281N" device="" package3d_urn="urn:adsk.eagle:package:40210566/1"/>
+<part name="DISPLAY" library="BASTL_LEDS" library_urn="urn:adsk.eagle:library:32977677" deviceset="SEG_SR420281N" device="_NOSILK" package3d_urn="urn:adsk.eagle:package:40222506/1" value="SR420281N"/>
 <part name="Y1" library="BASTL_CRYSTALS, RESNATORS" library_urn="urn:adsk.eagle:library:32978015" deviceset="CRYSTAL_3.2X1.5" device="" package3d_urn="urn:adsk.eagle:package:36651585/2" value="32.768 kHz"/>
 <part name="C1" library="BASTL_CAPACITORS" library_urn="urn:adsk.eagle:library:32978038" deviceset="CAPACITOR0603" device="" package3d_urn="urn:adsk.eagle:package:32978072/2" value="22p"/>
 <part name="C2" library="BASTL_CAPACITORS" library_urn="urn:adsk.eagle:library:32978038" deviceset="CAPACITOR0603" device="" package3d_urn="urn:adsk.eagle:package:32978072/2" value="22p"/>
 <part name="GND1" library="BASTL_SYMBOLS" library_urn="urn:adsk.eagle:library:32975873" deviceset="GND" device=""/>
-<part name="J1" library="BASTL_CONNECTORS" library_urn="urn:adsk.eagle:library:32904192" deviceset="USB-C" device="" package3d_urn="urn:adsk.eagle:package:35170324/6"/>
+<part name="USBC" library="BASTL_CONNECTORS" library_urn="urn:adsk.eagle:library:32904192" deviceset="USB-C" device="" package3d_urn="urn:adsk.eagle:package:35170324/6" value="TYPE-C-31-M-12"/>
 <part name="SW1" library="BASTL_SWITCHES" library_urn="urn:adsk.eagle:library:32903743" deviceset="KSC3XXJ" device="" package3d_urn="urn:adsk.eagle:package:40210534/1" value="KSC341J-LFS"/>
 <part name="SW2" library="BASTL_SWITCHES" library_urn="urn:adsk.eagle:library:32903743" deviceset="KSR2XXG" device="" package3d_urn="urn:adsk.eagle:package:40210535/1" value="KSR221G-LFS"/>
 <part name="GND2" library="BASTL_SYMBOLS" library_urn="urn:adsk.eagle:library:32975873" deviceset="GND" device=""/>
@@ -2953,6 +2996,8 @@ Source: http://www.murata.com/ Ferrite Bead BLM15H.pdf</description>
 <part name="R16" library="BASTL_RESISTORS" library_urn="urn:adsk.eagle:library:32975925" deviceset="RESISTOR0603" device="" package3d_urn="urn:adsk.eagle:package:32975936/2" value="4k7"/>
 <part name="C20" library="BASTL_CAPACITORS" library_urn="urn:adsk.eagle:library:32978038" deviceset="CAPACITOR0603" device="" package3d_urn="urn:adsk.eagle:package:32978072/2" value="100n"/>
 <part name="GND15" library="BASTL_SYMBOLS" library_urn="urn:adsk.eagle:library:32975873" deviceset="GND" device=""/>
+<part name="GND16" library="BASTL_SYMBOLS" library_urn="urn:adsk.eagle:library:32975873" deviceset="GND" device=""/>
+<part name="JP10" library="BASTL_PINHEADERS" library_urn="urn:adsk.eagle:library:32976504" deviceset="M01" device="_ROUND_NO_SILK" package3d_urn="urn:adsk.eagle:package:40212016/1" value="VBUS"/>
 </parts>
 <sheets>
 <sheet>
@@ -2994,7 +3039,7 @@ Original sounds: Copyrighted</text>
 <attribute name="NAME" x="-45.72" y="-38.1" size="1.778" layer="95"/>
 <attribute name="VALUE" x="-45.72" y="-40.64" size="1.778" layer="96"/>
 </instance>
-<instance part="DISPLAY1" gate="G$1" x="101.6" y="116.84" smashed="yes" rot="R270">
+<instance part="DISPLAY" gate="G$1" x="101.6" y="116.84" smashed="yes" rot="R270">
 <attribute name="NAME" x="96.52" y="128.016" size="1.778" layer="95"/>
 <attribute name="VALUE" x="96.52" y="106.68" size="1.778" layer="96"/>
 </instance>
@@ -3013,7 +3058,7 @@ Original sounds: Copyrighted</text>
 <instance part="GND1" gate="1" x="-167.64" y="53.34" smashed="yes">
 <attribute name="VALUE" x="-170.18" y="50.8" size="1.778" layer="96"/>
 </instance>
-<instance part="J1" gate="A" x="-134.62" y="-71.12" smashed="yes">
+<instance part="USBC" gate="A" x="-134.62" y="-71.12" smashed="yes">
 <attribute name="NAME" x="-134.62" y="-55.88" size="1.778" layer="95" rot="SR0" align="top-center"/>
 <attribute name="VALUE" x="-134.62" y="-58.42" size="1.778" layer="96" rot="SR0" align="top-center"/>
 </instance>
@@ -3295,6 +3340,13 @@ Original sounds: Copyrighted</text>
 <instance part="GND15" gate="1" x="58.42" y="127" smashed="yes" rot="MR0">
 <attribute name="VALUE" x="60.96" y="124.46" size="1.778" layer="96" rot="MR0"/>
 </instance>
+<instance part="GND16" gate="1" x="48.26" y="60.96" smashed="yes" rot="MR0">
+<attribute name="VALUE" x="50.8" y="58.42" size="1.778" layer="96" rot="MR0"/>
+</instance>
+<instance part="JP10" gate="G$1" x="-96.52" y="-50.8" smashed="yes" rot="R270">
+<attribute name="VALUE" x="-101.6" y="-48.26" size="1.778" layer="96" rot="R270"/>
+<attribute name="NAME" x="-93.218" y="-48.26" size="1.778" layer="95" rot="R270"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -3489,14 +3541,14 @@ Original sounds: Copyrighted</text>
 <wire x1="-144.78" y1="38.1" x2="-139.7" y2="38.1" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J1" gate="A" pin="GND_2"/>
+<pinref part="USBC" gate="A" pin="GND_2"/>
 <wire x1="-147.32" y1="-63.5" x2="-149.86" y2="-63.5" width="0.1524" layer="91"/>
 <wire x1="-149.86" y1="-63.5" x2="-149.86" y2="-88.9" width="0.1524" layer="91"/>
 <wire x1="-119.38" y1="-88.9" x2="-119.38" y2="-76.2" width="0.1524" layer="91"/>
-<pinref part="J1" gate="A" pin="GND"/>
+<pinref part="USBC" gate="A" pin="GND"/>
 <wire x1="-119.38" y1="-76.2" x2="-121.92" y2="-76.2" width="0.1524" layer="91"/>
 <wire x1="-149.86" y1="-88.9" x2="-134.62" y2="-88.9" width="0.1524" layer="91"/>
-<pinref part="J1" gate="A" pin="SHIELD"/>
+<pinref part="USBC" gate="A" pin="SHIELD"/>
 <wire x1="-134.62" y1="-88.9" x2="-119.38" y2="-88.9" width="0.1524" layer="91"/>
 <wire x1="-134.62" y1="-83.82" x2="-134.62" y2="-88.9" width="0.1524" layer="91"/>
 <junction x="-134.62" y="-88.9"/>
@@ -3522,6 +3574,13 @@ Original sounds: Copyrighted</text>
 <pinref part="C20" gate="G$1" pin="1"/>
 <pinref part="GND15" gate="1" pin="GND"/>
 <wire x1="58.42" y1="129.54" x2="58.42" y2="132.08" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="IC7" gate="G$1" pin="GND"/>
+<pinref part="GND16" gate="1" pin="GND"/>
+<pinref part="IC7" gate="G$1" pin="EXP"/>
+<wire x1="48.26" y1="63.5" x2="48.26" y2="66.04" width="0.1524" layer="91"/>
+<junction x="48.26" y="63.5"/>
 </segment>
 </net>
 <net name="BTN_2" class="0">
@@ -3717,7 +3776,7 @@ Original sounds: Copyrighted</text>
 </net>
 <net name="N$4" class="0">
 <segment>
-<pinref part="J1" gate="A" pin="CC1"/>
+<pinref part="USBC" gate="A" pin="CC1"/>
 <wire x1="-147.32" y1="-68.58" x2="-154.94" y2="-68.58" width="0.1524" layer="91"/>
 <wire x1="-154.94" y1="-68.58" x2="-154.94" y2="-76.2" width="0.1524" layer="91"/>
 <pinref part="R1" gate="G$1" pin="2"/>
@@ -3725,12 +3784,12 @@ Original sounds: Copyrighted</text>
 </net>
 <net name="USB-" class="0">
 <segment>
-<pinref part="J1" gate="A" pin="DN1"/>
+<pinref part="USBC" gate="A" pin="DN1"/>
 <wire x1="-147.32" y1="-73.66" x2="-160.02" y2="-73.66" width="0.1524" layer="91"/>
 <wire x1="-160.02" y1="-73.66" x2="-160.02" y2="-50.8" width="0.1524" layer="91"/>
 <wire x1="-160.02" y1="-50.8" x2="-116.84" y2="-50.8" width="0.1524" layer="91"/>
 <wire x1="-116.84" y1="-50.8" x2="-116.84" y2="-66.04" width="0.1524" layer="91"/>
-<pinref part="J1" gate="A" pin="DN2"/>
+<pinref part="USBC" gate="A" pin="DN2"/>
 <wire x1="-116.84" y1="-66.04" x2="-121.92" y2="-66.04" width="0.1524" layer="91"/>
 <junction x="-116.84" y="-66.04"/>
 <label x="-111.76" y="-63.5" size="1.778" layer="95" xref="yes"/>
@@ -3746,12 +3805,12 @@ Original sounds: Copyrighted</text>
 </net>
 <net name="USB+" class="0">
 <segment>
-<pinref part="J1" gate="A" pin="DP1"/>
+<pinref part="USBC" gate="A" pin="DP1"/>
 <wire x1="-147.32" y1="-71.12" x2="-157.48" y2="-71.12" width="0.1524" layer="91"/>
 <wire x1="-157.48" y1="-71.12" x2="-157.48" y2="-53.34" width="0.1524" layer="91"/>
 <wire x1="-157.48" y1="-53.34" x2="-119.38" y2="-53.34" width="0.1524" layer="91"/>
 <wire x1="-119.38" y1="-53.34" x2="-119.38" y2="-68.58" width="0.1524" layer="91"/>
-<pinref part="J1" gate="A" pin="DP2"/>
+<pinref part="USBC" gate="A" pin="DP2"/>
 <wire x1="-119.38" y1="-68.58" x2="-121.92" y2="-68.58" width="0.1524" layer="91"/>
 <wire x1="-119.38" y1="-68.58" x2="-111.76" y2="-68.58" width="0.1524" layer="91"/>
 <junction x="-119.38" y="-68.58"/>
@@ -3765,7 +3824,7 @@ Original sounds: Copyrighted</text>
 </net>
 <net name="N$5" class="0">
 <segment>
-<pinref part="J1" gate="A" pin="CC2"/>
+<pinref part="USBC" gate="A" pin="CC2"/>
 <pinref part="R2" gate="G$1" pin="2"/>
 <wire x1="-121.92" y1="-71.12" x2="-114.3" y2="-71.12" width="0.1524" layer="91"/>
 <wire x1="-114.3" y1="-71.12" x2="-114.3" y2="-76.2" width="0.1524" layer="91"/>
@@ -3773,12 +3832,12 @@ Original sounds: Copyrighted</text>
 </net>
 <net name="VBUS" class="0">
 <segment>
-<pinref part="J1" gate="A" pin="VBUS"/>
+<pinref part="USBC" gate="A" pin="VBUS"/>
 <wire x1="-121.92" y1="-73.66" x2="-116.84" y2="-73.66" width="0.1524" layer="91"/>
 <wire x1="-116.84" y1="-73.66" x2="-116.84" y2="-86.36" width="0.1524" layer="91"/>
 <wire x1="-116.84" y1="-86.36" x2="-152.4" y2="-86.36" width="0.1524" layer="91"/>
 <wire x1="-152.4" y1="-86.36" x2="-152.4" y2="-66.04" width="0.1524" layer="91"/>
-<pinref part="J1" gate="A" pin="VBUS_2"/>
+<pinref part="USBC" gate="A" pin="VBUS_2"/>
 <wire x1="-152.4" y1="-66.04" x2="-147.32" y2="-66.04" width="0.1524" layer="91"/>
 <junction x="-116.84" y="-73.66"/>
 <pinref part="C4" gate="G$1" pin="1"/>
@@ -3800,6 +3859,8 @@ Original sounds: Copyrighted</text>
 <pinref part="C3" gate="G$1" pin="2"/>
 <wire x1="-96.52" y1="-76.2" x2="-96.52" y2="-73.66" width="0.1524" layer="91"/>
 <junction x="-96.52" y="-73.66"/>
+<pinref part="JP10" gate="G$1" pin="1"/>
+<wire x1="-96.52" y1="-73.66" x2="-96.52" y2="-58.42" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="CHRG_STAT" class="0">
@@ -3810,6 +3871,11 @@ Original sounds: Copyrighted</text>
 <wire x1="-40.64" y1="-73.66" x2="-30.48" y2="-73.66" width="0.1524" layer="91"/>
 <junction x="-40.64" y="-73.66"/>
 <pinref part="IC3" gate="A" pin="STAT"/>
+</segment>
+<segment>
+<wire x1="-53.34" y1="15.24" x2="-63.5" y2="15.24" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="A" pin="PA18"/>
+<label x="-53.34" y="15.24" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="N$7" class="0">
@@ -3978,14 +4044,14 @@ Original sounds: Copyrighted</text>
 <label x="55.88" y="30.48" size="1.778" layer="95" rot="R180" xref="yes"/>
 </segment>
 <segment>
-<wire x1="-109.22" y1="50.8" x2="-114.3" y2="50.8" width="0.1524" layer="91"/>
-<pinref part="IC1" gate="A" pin="PB09"/>
-<label x="-114.3" y="50.8" size="1.778" layer="95" rot="R180" xref="yes"/>
-</segment>
-<segment>
 <wire x1="10.16" y1="-76.2" x2="5.08" y2="-76.2" width="0.1524" layer="91"/>
 <pinref part="R7" gate="G$1" pin="1"/>
 <label x="5.08" y="-76.2" size="1.778" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<wire x1="-58.42" y1="12.7" x2="-63.5" y2="12.7" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="A" pin="PA17"/>
+<label x="-58.42" y="12.7" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="N$10" class="0">
@@ -4007,9 +4073,9 @@ Original sounds: Copyrighted</text>
 <junction x="165.1" y="-17.78"/>
 </segment>
 <segment>
-<wire x1="-127" y1="53.34" x2="-109.22" y2="53.34" width="0.1524" layer="91"/>
-<pinref part="IC1" gate="A" pin="PB08"/>
-<label x="-127" y="53.34" size="1.778" layer="95" rot="R180" xref="yes"/>
+<wire x1="-63.5" y1="10.16" x2="-45.72" y2="10.16" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="A" pin="PA16"/>
+<label x="-45.72" y="10.16" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="SCL" class="0">
@@ -4157,7 +4223,7 @@ Original sounds: Copyrighted</text>
 <wire x1="63.5" y1="119.38" x2="63.5" y2="134.62" width="0.1524" layer="91"/>
 <wire x1="63.5" y1="134.62" x2="129.54" y2="134.62" width="0.1524" layer="91"/>
 <wire x1="129.54" y1="134.62" x2="129.54" y2="124.46" width="0.1524" layer="91"/>
-<pinref part="DISPLAY1" gate="G$1" pin="DIG_0"/>
+<pinref part="DISPLAY" gate="G$1" pin="DIG_0"/>
 <wire x1="129.54" y1="124.46" x2="114.3" y2="124.46" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -4168,7 +4234,7 @@ Original sounds: Copyrighted</text>
 <wire x1="66.04" y1="116.84" x2="66.04" y2="132.08" width="0.1524" layer="91"/>
 <wire x1="66.04" y1="132.08" x2="132.08" y2="132.08" width="0.1524" layer="91"/>
 <wire x1="132.08" y1="132.08" x2="132.08" y2="116.84" width="0.1524" layer="91"/>
-<pinref part="DISPLAY1" gate="G$1" pin="DIG_1"/>
+<pinref part="DISPLAY" gate="G$1" pin="DIG_1"/>
 <wire x1="132.08" y1="116.84" x2="114.3" y2="116.84" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -4179,14 +4245,14 @@ Original sounds: Copyrighted</text>
 <wire x1="68.58" y1="114.3" x2="68.58" y2="129.54" width="0.1524" layer="91"/>
 <wire x1="68.58" y1="129.54" x2="134.62" y2="129.54" width="0.1524" layer="91"/>
 <wire x1="134.62" y1="129.54" x2="134.62" y2="114.3" width="0.1524" layer="91"/>
-<pinref part="DISPLAY1" gate="G$1" pin="DIG_2"/>
+<pinref part="DISPLAY" gate="G$1" pin="DIG_2"/>
 <wire x1="134.62" y1="114.3" x2="114.3" y2="114.3" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$15" class="0">
 <segment>
 <pinref part="IC7" gate="G$1" pin="DIG3"/>
-<pinref part="DISPLAY1" gate="G$1" pin="DIG_3"/>
+<pinref part="DISPLAY" gate="G$1" pin="DIG_3"/>
 <wire x1="48.26" y1="111.76" x2="88.9" y2="111.76" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -4195,7 +4261,7 @@ Original sounds: Copyrighted</text>
 <pinref part="IC7" gate="G$1" pin="SEGA"/>
 <wire x1="48.26" y1="96.52" x2="129.54" y2="96.52" width="0.1524" layer="91"/>
 <wire x1="129.54" y1="96.52" x2="129.54" y2="121.92" width="0.1524" layer="91"/>
-<pinref part="DISPLAY1" gate="G$1" pin="SEG_A"/>
+<pinref part="DISPLAY" gate="G$1" pin="SEG_A"/>
 <wire x1="129.54" y1="121.92" x2="114.3" y2="121.92" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -4204,7 +4270,7 @@ Original sounds: Copyrighted</text>
 <pinref part="IC7" gate="G$1" pin="SEGB"/>
 <wire x1="48.26" y1="93.98" x2="127" y2="93.98" width="0.1524" layer="91"/>
 <wire x1="127" y1="93.98" x2="127" y2="111.76" width="0.1524" layer="91"/>
-<pinref part="DISPLAY1" gate="G$1" pin="SEG_B"/>
+<pinref part="DISPLAY" gate="G$1" pin="SEG_B"/>
 <wire x1="127" y1="111.76" x2="114.3" y2="111.76" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -4213,7 +4279,7 @@ Original sounds: Copyrighted</text>
 <pinref part="IC7" gate="G$1" pin="SEGC"/>
 <wire x1="48.26" y1="91.44" x2="83.82" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="83.82" y1="91.44" x2="83.82" y2="116.84" width="0.1524" layer="91"/>
-<pinref part="DISPLAY1" gate="G$1" pin="SEG_C"/>
+<pinref part="DISPLAY" gate="G$1" pin="SEG_C"/>
 <wire x1="83.82" y1="116.84" x2="88.9" y2="116.84" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -4222,7 +4288,7 @@ Original sounds: Copyrighted</text>
 <pinref part="IC7" gate="G$1" pin="SEGD"/>
 <wire x1="48.26" y1="88.9" x2="81.28" y2="88.9" width="0.1524" layer="91"/>
 <wire x1="81.28" y1="88.9" x2="81.28" y2="121.92" width="0.1524" layer="91"/>
-<pinref part="DISPLAY1" gate="G$1" pin="SEG_D"/>
+<pinref part="DISPLAY" gate="G$1" pin="SEG_D"/>
 <wire x1="81.28" y1="121.92" x2="88.9" y2="121.92" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -4231,7 +4297,7 @@ Original sounds: Copyrighted</text>
 <pinref part="IC7" gate="G$1" pin="SEGE"/>
 <wire x1="48.26" y1="86.36" x2="78.74" y2="86.36" width="0.1524" layer="91"/>
 <wire x1="78.74" y1="86.36" x2="78.74" y2="124.46" width="0.1524" layer="91"/>
-<pinref part="DISPLAY1" gate="G$1" pin="SEG_E"/>
+<pinref part="DISPLAY" gate="G$1" pin="SEG_E"/>
 <wire x1="78.74" y1="124.46" x2="88.9" y2="124.46" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -4240,7 +4306,7 @@ Original sounds: Copyrighted</text>
 <pinref part="IC7" gate="G$1" pin="SEGF"/>
 <wire x1="48.26" y1="83.82" x2="116.84" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="116.84" y1="83.82" x2="116.84" y2="119.38" width="0.1524" layer="91"/>
-<pinref part="DISPLAY1" gate="G$1" pin="SEG_F"/>
+<pinref part="DISPLAY" gate="G$1" pin="SEG_F"/>
 <wire x1="116.84" y1="119.38" x2="114.3" y2="119.38" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -4249,13 +4315,13 @@ Original sounds: Copyrighted</text>
 <pinref part="IC7" gate="G$1" pin="SEGG"/>
 <wire x1="48.26" y1="81.28" x2="86.36" y2="81.28" width="0.1524" layer="91"/>
 <wire x1="86.36" y1="81.28" x2="86.36" y2="114.3" width="0.1524" layer="91"/>
-<pinref part="DISPLAY1" gate="G$1" pin="SEG_G"/>
+<pinref part="DISPLAY" gate="G$1" pin="SEG_G"/>
 <wire x1="86.36" y1="114.3" x2="88.9" y2="114.3" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$23" class="0">
 <segment>
-<pinref part="DISPLAY1" gate="G$1" pin="SEG_DP"/>
+<pinref part="DISPLAY" gate="G$1" pin="SEG_DP"/>
 <wire x1="88.9" y1="119.38" x2="76.2" y2="119.38" width="0.1524" layer="91"/>
 <wire x1="76.2" y1="119.38" x2="76.2" y2="78.74" width="0.1524" layer="91"/>
 <pinref part="IC7" gate="G$1" pin="SEGDP"/>
