@@ -55,7 +55,7 @@
 <layer number="45" name="Holes" color="7" fill="1" visible="no" active="yes"/>
 <layer number="46" name="Milling" color="3" fill="1" visible="no" active="yes"/>
 <layer number="47" name="Measures" color="7" fill="1" visible="no" active="yes"/>
-<layer number="48" name="Document" color="7" fill="1" visible="no" active="yes"/>
+<layer number="48" name="Document" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="49" name="Reference" color="7" fill="1" visible="no" active="yes"/>
 <layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
 <layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="yes"/>
@@ -612,6 +612,11 @@ xx0x.cz</text>
 </polygon>
 <circle x="19.4564" y="31.5722" radius="0.508" width="0" layer="21"/>
 <circle x="8.9662" y="31.5722" radius="0.508" width="0" layer="21"/>
+<text x="1.1684" y="37.4396" size="1.778" layer="48">VK49 2.0
+Vaclav Mach (vaclavmach@hotmail.cz)
+Hardware: CC BY-SA 4.0
+Software: CC BY-SA 4.0
+Original sounds: Copyrighted</text>
 </plain>
 <libraries>
 <library name="BASTL_CAPACITORS" urn="urn:adsk.eagle:library:32978038">
@@ -3861,9 +3866,7 @@ design rules under a new name.</description>
 <errors>
 <approved hash="7,39,2883466590ac928d"/>
 <approved hash="7,39,772f9b0fdb183738"/>
-<approved hash="7,39,7a0f71f43e42b810"/>
 <approved hash="7,39,ae6ad7bf2cb0608b"/>
-<approved hash="7,39,2467433341875909"/>
 <approved hash="19,1,4675b574e1db39e8"/>
 <approved hash="19,1,fd1bf001c3e7cefd"/>
 <approved hash="19,1,91fc960beaeded1a"/>
@@ -3884,6 +3887,8 @@ design rules under a new name.</description>
 <approved hash="5,1,2af33f8c2ee043af"/>
 <approved hash="5,1,d2fe257c8f63979f"/>
 <approved hash="19,1,681e6a7a929c90f8"/>
+<approved hash="7,39,640172f2054fb41f"/>
+<approved hash="7,39,2467403041875c0f"/>
 </errors>
 </board>
 </drawing>
