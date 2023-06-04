@@ -63,9 +63,12 @@ void displayShowOn()
     as.display(" on ");
 }
 
-void displayCharge()
+void displayCharge(uint8_t batteryLevel, uint8_t frame)
 {
-    as.display("CHrg");
+    frame = 6 - frame;
+    as.display(1, (1 << frame) | (1 << (((frame + 2) % 6) + 1)));
+    as.displayNumber(3, batteryLevel / 10);
+    as.displayNumber(4, batteryLevel % 10);
 }
 
 void displayFlash()

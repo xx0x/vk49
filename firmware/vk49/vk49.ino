@@ -22,10 +22,9 @@
 #define MAX_SAMPLES 160
 
 // Battery measure
-#define BAT_TOPLIMIT 3918 // 4.2V -> 3.158V (voltage divider)
+#define BAT_TOPLIMIT 3910 // 4.2V -> 3.158V (voltage divider)
 #define BAT_LOWLIMIT 2986 // 3.2V -> 2.406V (voltage divider)
-#define BAT_MEASURES 10
-#define BAT_DELAY 10
+byte batteryLevel = 0;
 
 // Create audio, RTC, display and flash objects
 RTC_DS3231 rtc;
@@ -112,6 +111,7 @@ void setup()
     pinMode(PIN_CHARGE_STAT, INPUT);
     delay(1000);
     displaySetup();
+    initAdc();
 
     Serial.begin(115200);
     Serial.println("VK49 startup\n");
@@ -145,7 +145,7 @@ void buttonPressedCallback()
     }
     lastTimeButton = millis();
     buttonPressed = true;
-    if (isPlaying && IS_MENU_ACTIVE)
+    if (isPlaying)
     {
         stopPlaying = true;
     }
@@ -219,6 +219,7 @@ void turnOn()
 
 void loop()
 {
+    checkAdc();
     serialLoop();
     alarmLoop();
     if (!alarmTriggered)
@@ -244,16 +245,19 @@ void chargeLoop()
 {
     if (isCharging())
     {
+        displayClear();
         if (!wakeUpByCharge)
         {
-            displayClear();
             delay(100);
         }
         wakeUpByCharge = false;
+        byte frame = 0;
         while (isCharging() && !buttonPressed && !menuButtonPressed)
         {
-            displayCharge();
-            delay(100);
+            checkAdc();
+            displayCharge(batteryLevel, frame);
+            delay(500);
+            frame = (frame + 1) % 6;
         }
         if (buttonPressed || menuButtonPressed)
         {
@@ -267,8 +271,8 @@ void timeLoop()
 {
     if (buttonPressed && !IS_MENU_ACTIVE)
     {
-        showTime(true);
         buttonPressed = false;
+        showTime(true);
         goToSleep = true;
     }
 }
@@ -502,18 +506,8 @@ void menuLoop()
 
         break;
     case MENU_BATTERY: // F
-        delay(50);
-        if (previousBatteryState > 0)
-        {
-            displayMenuItemNumber(currentMenuItem, isCharging(), previousBatteryState);
-        }
-        else
-        {
-            displayMenuItem(currentMenuItem);
-        }
-        delay(50);
-        previousBatteryState = readBattery();
-        smartDelay(200);
+        displayMenuItemNumber(currentMenuItem, isCharging(), batteryLevel);
+        smartDelay(500);
         break;
     default:
         break;
@@ -621,23 +615,44 @@ void serialLoop()
     }
 }
 
-byte readBattery()
-{
-    long measuredvbat = 0;
-    byte num = 0;
-    for (byte i = 0; i < BAT_MEASURES; i++)
-    {
-        measuredvbat += analogRead(PIN_BAT_VOLTAGE);
-        num++;
-        delay(BAT_DELAY);
-        if (buttonPressed || menuButtonPressed)
-        {
-            break;
-        }
+#define SYNC_ADC(x)                  \
+    while (ADC->STATUS.bit.SYNCBUSY) \
+    {                                \
     }
-    measuredvbat = constrain(measuredvbat / num, BAT_LOWLIMIT, BAT_TOPLIMIT);
-    byte batcap = map(measuredvbat, BAT_LOWLIMIT, BAT_TOPLIMIT, 0, 99);
-    return batcap;
+
+void initAdc()
+{
+    // "Slower" ADC for better precision
+    ADC->SAMPCTRL.reg = ADC_SAMPCTRL_SAMPLEN(32);
+    ADC->AVGCTRL.reg = ADC_AVGCTRL_SAMPLENUM_1024 | ADC_AVGCTRL_ADJRES(4);
+    SYNC_ADC();
+    ADC->CTRLB.bit.PRESCALER = ADC_CTRLB_PRESCALER_DIV512_Val;
+    SYNC_ADC();
+    ADC->CTRLB.bit.RESSEL = ADC_CTRLB_RESSEL_12BIT_Val;
+    SYNC_ADC();
+    ADC->CTRLA.bit.ENABLE = 0x01; // Enable ADC
+    startAdc();
+}
+
+void startAdc()
+{
+    SYNC_ADC();
+    ADC->INPUTCTRL.bit.MUXPOS = ADC_INPUTCTRL_MUXPOS_PIN5;
+    SYNC_ADC();
+    ADC->SWTRIG.bit.START = 1;
+}
+
+void checkAdc()
+{
+    if (ADC->INTFLAG.bit.RESRDY)
+    {
+        uint16_t result = ADC->RESULT.reg;
+        result = constrain(result, BAT_LOWLIMIT, BAT_TOPLIMIT);
+        batteryLevel = map(result, BAT_LOWLIMIT, BAT_TOPLIMIT, 0, 99);
+        SYNC_ADC();
+        ADC->INTFLAG.reg = ADC_INTFLAG_RESRDY;
+        startAdc();
+    }
 }
 
 bool isCharging()
