@@ -2949,7 +2949,7 @@ Source: http://www.murata.com/ Ferrite Bead BLM15H.pdf</description>
 <part name="R7" library="BASTL_RESISTORS" library_urn="urn:adsk.eagle:library:32975925" deviceset="RESISTOR0603" device="" package3d_urn="urn:adsk.eagle:package:32975936/2" value="10k"/>
 <part name="GND23" library="BASTL_SYMBOLS" library_urn="urn:adsk.eagle:library:32975873" deviceset="GND" device=""/>
 <part name="GND24" library="BASTL_SYMBOLS" library_urn="urn:adsk.eagle:library:32975873" deviceset="GND" device=""/>
-<part name="R8" library="BASTL_RESISTORS" library_urn="urn:adsk.eagle:library:32975925" deviceset="RESISTOR0603" device="" package3d_urn="urn:adsk.eagle:package:32975936/2" value="30k"/>
+<part name="R8" library="BASTL_RESISTORS" library_urn="urn:adsk.eagle:library:32975925" deviceset="RESISTOR0603" device="" package3d_urn="urn:adsk.eagle:package:32975936/2" value="33k"/>
 <part name="R9" library="BASTL_RESISTORS" library_urn="urn:adsk.eagle:library:32975925" deviceset="RESISTOR0603" device="" package3d_urn="urn:adsk.eagle:package:32975936/2" value="100k"/>
 <part name="GND8" library="BASTL_SYMBOLS" library_urn="urn:adsk.eagle:library:32975873" deviceset="GND" device=""/>
 <part name="SUPPLY2" library="BASTL_SYMBOLS" library_urn="urn:adsk.eagle:library:32975873" deviceset="VDD" device=""/>
@@ -3002,8 +3002,8 @@ Source: http://www.murata.com/ Ferrite Bead BLM15H.pdf</description>
 <sheets>
 <sheet>
 <plain>
-<text x="38.1" y="-96.52" size="1.778" layer="98">Fully charged (4.2V): 3.231V
-Discharged (3.2V): 2.462V</text>
+<text x="38.1" y="-96.52" size="1.778" layer="98">Fully charged (4.2V): 3.158V
+Discharged (3.2V): 2.406V</text>
 <text x="-238.76" y="111.76" size="12.7" layer="94" ratio="15">VK49 2.0
 Vaclav Mach (vaclavmach@hotmail.cz)
 Hardware: CC BY-SA 4.0

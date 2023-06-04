@@ -2151,7 +2151,7 @@ design rules under a new name.</description>
 <attribute name="VALUE" x="22.0265625" y="23.6347" size="0.8" layer="27" font="vector" ratio="15" rot="R90" align="center"/>
 <attribute name="VENDOR" value="" x="66.548" y="-41.656" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
-<element name="R8" library="BASTL_RESISTORS" library_urn="urn:adsk.eagle:library:32975925" package="RESISTOR0603" package3d_urn="urn:adsk.eagle:package:32975936/2" value="30k" x="29.972" y="25.146" smashed="yes" rot="R90">
+<element name="R8" library="BASTL_RESISTORS" library_urn="urn:adsk.eagle:library:32975925" package="RESISTOR0603" package3d_urn="urn:adsk.eagle:package:32975936/2" value="33k" x="29.972" y="25.146" smashed="yes" rot="R90">
 <attribute name="ASSEMBLED" value="yes" x="75.692" y="-14.478" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MAN" value="" x="75.692" y="-14.478" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MPN" value="" x="75.692" y="-14.478" size="1.778" layer="27" rot="R90" display="off"/>
