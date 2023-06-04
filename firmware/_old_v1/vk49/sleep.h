@@ -1,14 +1,12 @@
 
-void sleepPrepare(voidFuncPtr callback, voidFuncPtr callback2, voidFuncPtr callback3, voidFuncPtr callback4)
+void sleepPrepare(voidFuncPtr callback, voidFuncPtr callback2, voidFuncPtr callback3)
 {
     byte interruptPin = digitalPinToInterrupt(PIN_BUTTON);
     byte interruptPin2 = digitalPinToInterrupt(PIN_MENU_BUTTON);
     byte interruptPin3 = digitalPinToInterrupt(PIN_ALARM);
-    byte interruptPin4 = digitalPinToInterrupt(PIN_CHARGE_STAT);
     attachInterrupt(interruptPin, callback, FALLING);
     attachInterrupt(interruptPin2, callback2, FALLING);
     attachInterrupt(interruptPin3, callback3, FALLING);
-    attachInterrupt(interruptPin4, callback4, FALLING);
 
     // enable EIC clock
     GCLK->CLKCTRL.bit.CLKEN = 0; //disable GCLK module
@@ -31,7 +29,6 @@ void sleepPrepare(voidFuncPtr callback, voidFuncPtr callback2, voidFuncPtr callb
     EIC->WAKEUP.reg |= (1 << interruptPin);
     EIC->WAKEUP.reg |= (1 << interruptPin2);
     EIC->WAKEUP.reg |= (1 << interruptPin3);
-    EIC->WAKEUP.reg |= (1 << interruptPin4);
 //    PM->SLEEP.reg |= PM_SLEEP_IDLE_APB;
 }
 

@@ -58,16 +58,6 @@ void displayShowOff()
     as.display(" off");
 }
 
-void displayShowOn()
-{
-    as.display(" on ");
-}
-
-void displayCharge()
-{
-    as.display("CHrg");
-}
-
 void displayFlash()
 {
     as.display("FL");
@@ -124,24 +114,12 @@ void displayMenuItem(byte item)
     as.display(txt);
 }
 
-void displayMenuItemNumber(byte item, bool colon, byte val)
+void displayMenuItemNumber(byte item, byte val)
 {
     delay(20);
     char txt[4];
-    if (colon)
-    {
-        sprintf(txt, "%c .%d%d", displayGetChar(item), (val / 10) % 10, val % 10);
-    }
-    else
-    {
-        sprintf(txt, "%c %d%d", displayGetChar(item), (val / 10) % 10, val % 10);
-    }
+    sprintf(txt, "%c %d%d", displayGetChar(item), (val / 10) % 10, val % 10);
     as.display(txt);
-}
-
-void displayMenuItemNumber(byte item, byte val)
-{
-    displayMenuItemNumber(item, false, val);
 }
 
 void displayMenuItemBoolean(byte item, bool val)

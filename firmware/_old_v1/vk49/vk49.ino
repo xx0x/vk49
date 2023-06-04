@@ -22,12 +22,13 @@
 #define MAX_SAMPLES 160
 
 // Battery measure
-#define BAT_TOPLIMIT 3918 // 4.2V -> 3.158V (voltage divider)
-#define BAT_LOWLIMIT 2986 // 3.2V -> 2.406V (voltage divider)
+#define BAT_TOPLIMIT 1678
+#define BAT_LOWLIMIT 1620
 #define BAT_MEASURES 10
-#define BAT_DELAY 10
+#define BAT_DELAY 100
 
 // Create audio, RTC, display and flash objects
+// LedControlSAMD21 lc = LedControlSAMD21(PIN_LED_DATA, PIN_LED_CLOCK, PIN_LED_LATCH, 1);
 RTC_DS3231 rtc;
 Adafruit_ZeroI2S i2s(PIN_I2S_FS, PIN_I2S_SCK, PIN_I2S_TX, PIN_I2S_RX);
 SPIFlash flash(PIN_FLASH_CS);
@@ -58,7 +59,6 @@ bool goToSleep = true;
 bool menuActive = false;
 bool stopPlaying = false;
 bool isPlaying = false;
-bool wakeUpByCharge = false;
 
 // Buttons and timings
 #define DEBOUNCE_TIME 250
@@ -108,8 +108,7 @@ void setup()
     digitalWrite(PIN_ENABLE, HIGH);
     pinMode(PIN_BUTTON, INPUT_PULLUP);
     pinMode(PIN_MENU_BUTTON, INPUT_PULLUP);
-    pinMode(PIN_BAT_VOLTAGE, INPUT);
-    pinMode(PIN_CHARGE_STAT, INPUT);
+    pinMode(PIN_BATSENSE, INPUT);
     delay(1000);
     displaySetup();
 
@@ -133,7 +132,7 @@ void setup()
     displayClear();
 
     saySetup();
-    sleepPrepare(buttonPressedCallback, menuButtonPressedCallback, alarmCallback, chargeCallback);
+    sleepPrepare(buttonPressedCallback, menuButtonPressedCallback, alarmCallback);
     Serial.println("VK49 ready\n");
 }
 
@@ -181,12 +180,6 @@ void alarmCallback()
     rtc.clearAlarm(1);
 }
 
-void chargeCallback()
-{
-    goToSleep = true;
-    wakeUpByCharge = true;
-}
-
 void smartDelay(unsigned int d)
 {
     delay(10);
@@ -206,6 +199,8 @@ void turnOff()
     flash.powerDown();
     delay(10);
     digitalWrite(PIN_ENABLE, LOW);
+    lastTimeButton = 0;
+    lastTimeMenuButton = 0;
     sleepStart();
 }
 
@@ -213,8 +208,8 @@ void turnOn()
 {
     digitalWrite(PIN_ENABLE, HIGH);
     delay(10);
-    flash.powerUp();
     displayOn();
+    flash.powerUp();
 }
 
 void loop()
@@ -227,38 +222,9 @@ void loop()
         menuLoop();
         if (goToSleep)
         {
-            lastTimeButton = 0;
-            lastTimeMenuButton = 0;
-            chargeLoop();
-            if (!buttonPressed && !menuButtonPressed)
-            {
-                goToSleep = false;
-                turnOff();
-                turnOn();
-            }
-        }
-    }
-}
-
-void chargeLoop()
-{
-    if (isCharging())
-    {
-        if (!wakeUpByCharge)
-        {
-            displayClear();
-            delay(100);
-        }
-        wakeUpByCharge = false;
-        while (isCharging() && !buttonPressed && !menuButtonPressed)
-        {
-            displayCharge();
-            delay(100);
-        }
-        if (buttonPressed || menuButtonPressed)
-        {
-            displayClear();
-            delay(100);
+            goToSleep = false;
+            turnOff();
+            turnOn();
         }
     }
 }
@@ -315,7 +281,7 @@ byte previousBatteryState = 0;
 
 void menuLoop()
 {
-    if (IS_MENU_ACTIVE && millis() - lastTimeButton > MENU_TIMEOUT && millis() - lastTimeMenuButton > MENU_TIMEOUT && millis() - lastTimeSerialRecieved > MENU_TIMEOUT)
+    if (millis() - lastTimeButton > MENU_TIMEOUT && millis() - lastTimeMenuButton > MENU_TIMEOUT && millis() - lastTimeSerialRecieved > MENU_TIMEOUT)
     {
         displayClear();
         delay(50);
@@ -505,7 +471,7 @@ void menuLoop()
         delay(50);
         if (previousBatteryState > 0)
         {
-            displayMenuItemNumber(currentMenuItem, isCharging(), previousBatteryState);
+            displayMenuItemNumber(currentMenuItem, previousBatteryState);
         }
         else
         {
@@ -627,7 +593,7 @@ byte readBattery()
     byte num = 0;
     for (byte i = 0; i < BAT_MEASURES; i++)
     {
-        measuredvbat += analogRead(PIN_BAT_VOLTAGE);
+        measuredvbat += analogRead(PIN_BATSENSE);
         num++;
         delay(BAT_DELAY);
         if (buttonPressed || menuButtonPressed)
@@ -638,9 +604,4 @@ byte readBattery()
     measuredvbat = constrain(measuredvbat / num, BAT_LOWLIMIT, BAT_TOPLIMIT);
     byte batcap = map(measuredvbat, BAT_LOWLIMIT, BAT_TOPLIMIT, 0, 99);
     return batcap;
-}
-
-bool isCharging()
-{
-    return !digitalRead(PIN_CHARGE_STAT);
 }
